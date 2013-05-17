@@ -6,29 +6,31 @@ using namespace ci::app;
 using namespace std;
 
 class glStuffApp : public AppNative {
-  public:
+public:
 	void setup();
-	void mouseDown( MouseEvent event );	
+	void prepareSettings(Settings *settings);
+	void mouseDown(MouseEvent event);	
 	void update();
 	void draw();
 };
 
-void glStuffApp::setup()
-{
+void glStuffApp::prepareSettings(Settings *settings) {
+	settings->setWindowSize(800, 600);
+	settings->setFrameRate(60.0f);
 }
 
-void glStuffApp::mouseDown( MouseEvent event )
-{
+void glStuffApp::setup() {
 }
 
-void glStuffApp::update()
-{
+void glStuffApp::mouseDown(MouseEvent event) {
 }
 
-void glStuffApp::draw()
-{
-	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) ); 
+void glStuffApp::update() {
 }
 
-CINDER_APP_NATIVE( glStuffApp, RendererGl )
+void glStuffApp::draw() {
+	gl::clear(Color(0, 0, 0)); 
+
+}
+
+CINDER_APP_NATIVE(glStuffApp, RendererGl)
