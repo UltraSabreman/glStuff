@@ -11,5 +11,5 @@ uniform mat4 modelview;
 void main()
 {
     gl_Position = projection * modelview * vert;
-	outCol = inCol;//vec3(1.0,0,0);
+	outCol = vec3(1.0,0,0);
 }
