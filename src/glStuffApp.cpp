@@ -40,7 +40,7 @@ void glStuffApp::setup() {
 
 	CameraPersp cam;
 	cam.setPerspective(75.0f, getWindowAspectRatio(), 5.0f, 2000.0f);
-	cam.setEyePoint(Vec3f(500, 0,0));
+	cam.setEyePoint(Vec3f(0,0,500));
 	cam.setCenterOfInterestPoint(Vec3f::zero());
 	myCamera.setCurrentCam(cam);
 
@@ -74,12 +74,11 @@ void glStuffApp::setup() {
 				indices.push_back( (x+1) * VERTy + (y+1));
 				indices.push_back( (x+0) * VERTy + (y+1));
 			}
-			// the texture coordinates are mapped to [0,1.0)
-			texCoords.push_back(hsvToRGB(Vec3f((float)lol/totalVertices,1.0,1.0)));
 
+			Color test = hsvToRGB(Vec3f((float)lol/totalVertices,1.0,1.0));
+			texCoords.push_back(test);
 		}
 	}
-	
 	mVbo->bufferIndices(indices);
 	mVbo->bufferColorsRGB(texCoords);
 
@@ -93,25 +92,26 @@ void glStuffApp::update() {
 	gl::VboMesh::VertexIter iter = mVbo->mapVertexBuffer();
 	for( int x = 0; x < VERTx; ++x ) {
 		for( int y = 0; y < VERTy; ++y ) {
-			iter.setPosition(Vec3d(x,y,0));
+			iter.setPosition(Vec3d(x,y + cos(getElapsedSeconds()) * 10,sin(getElapsedSeconds()) * 10));
 			++iter;
 		}
 	}
 }
 
 void glStuffApp::draw() {
-	gl::clear(Color(0, 0, 0)); 
-	//gl::pushMatrices();
+	gl::clear(Color(0.0, 0, 0)); 
+
 	gl::setMatrices(myCamera.getCamera());
 	gl::enableWireframe();
-	shader.uniform("model", myCamera.getCamera().getModelViewMatrix());
-	shader.uniform("projection", myCamera.getCamera().getProjectionMatrix());
-	//shader.uniform("view", myCamera.getCamera().get);
+	//console() << mVbo->getLayout().mAttributes << endl;
 
 	shader.bind();
-	
-	//gl::drawSolidCircle(Vec2f::zero(), 1);
+	shader.uniform("modelview", myCamera.getCamera().getModelViewMatrix());
+	shader.uniform("projection", myCamera.getCamera().getProjectionMatrix());
+	//shader.uniform("inCol", Color(0.0,0.0,1.0));
+
 	gl::draw(mVbo);
+
 	shader.unbind();
 	gl::disableWireframe();
 	gl::popMatrices();
