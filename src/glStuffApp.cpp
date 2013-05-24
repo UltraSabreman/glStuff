@@ -2,7 +2,6 @@
 #include "cinder\gl\gl.h"
 #include "cinder\gl\GlslProg.h"
 #include "cinder\gl\Vbo.h"
-
 #include "cinder\MayaCamUI.h"
 
 #define VERTx 20
@@ -90,7 +89,8 @@ void glStuffApp::setup() {
 	}
 	mVbo->bufferIndices(indices);
 	mVbo->bufferColorsRGB(texCoords);
-
+//	mVbo->
+	//console() << shader.getAttribLocation("Color") << endl;
 }
 
 void glStuffApp::mouseDown(MouseEvent event) {
@@ -108,17 +108,15 @@ void glStuffApp::update() {
 }
 
 void glStuffApp::draw() {
-	gl::clear(Color(0.0, 0, 0)); 
+	gl::clear(Color(0.0, 0, 0), true); 
 
-	gl::setMatrices(myCamera.getCamera());
+	//gl::setMatrices(myCamera.getCamera());
 	gl::enableDepthRead();
 	gl::enableWireframe();
-	//console() << mVbo->getLayout().mAttributes << endl;
 
 	shader.bind();
 	shader.uniform("modelview", myCamera.getCamera().getModelViewMatrix());
 	shader.uniform("projection", myCamera.getCamera().getProjectionMatrix());
-	//shader.uniform("inCol", Color(0.0,0.0,1.0));
 
 	gl::draw(mVbo);
 
@@ -126,7 +124,7 @@ void glStuffApp::draw() {
 
 	gl::disableWireframe();
 	gl::disableDepthRead();
-	gl::popMatrices();
+	//gl::popMatrices();
 }
 
 CINDER_APP_NATIVE(glStuffApp, RendererGl)
