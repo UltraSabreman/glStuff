@@ -110,13 +110,13 @@ void glStuffApp::update() {
 void glStuffApp::draw() {
 	gl::clear(Color(0.0, 0, 0), true); 
 
-	//gl::setMatrices(myCamera.getCamera());
+	gl::setMatrices(myCamera.getCamera());
 	gl::enableDepthRead();
 	gl::enableWireframe();
 
 	shader.bind();
-	shader.uniform("modelview", myCamera.getCamera().getModelViewMatrix());
-	shader.uniform("projection", myCamera.getCamera().getProjectionMatrix());
+	//shader.uniform("modelview", myCamera.getCamera().getModelViewMatrix());
+	//shader.uniform("projection", myCamera.getCamera().getProjectionMatrix());
 
 	gl::draw(mVbo);
 
